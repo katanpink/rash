@@ -1,0 +1,162 @@
+[gd_scene load_steps=13 format=3 uid="uid://ciof3tv12i107"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_lp0j2"]
+[ext_resource type="Texture2D" uid="uid://dnyqvqw5hgo3y" path="res://spiret/Purb.png" id="2_u116s"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k8gea"]
+radius = 0.027632
+height = 0.106415
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1uxbh"]
+radius = 0.0324869
+
+[sub_resource type="Animation" id="Animation_q0r53"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ymxdb"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ves7v"]
+resource_name = "movement"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_b8u60"]
+resource_name = "fs_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+
+[sub_resource type="Animation" id="Animation_uimo2"]
+resource_name = "up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [13]
+}
+
+[sub_resource type="Animation" id="Animation_c8scu"]
+resource_name = "dn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [14]
+}
+
+[sub_resource type="Animation" id="Animation_sh3bm"]
+resource_name = "fs_dn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5c36w"]
+_data = {
+"RESET": SubResource("Animation_q0r53"),
+"dn": SubResource("Animation_c8scu"),
+"fs_dn": SubResource("Animation_sh3bm"),
+"fs_up": SubResource("Animation_b8u60"),
+"idle": SubResource("Animation_ymxdb"),
+"movement": SubResource("Animation_ves7v"),
+"up": SubResource("Animation_uimo2")
+}
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0841417, 0)
+axis_lock_linear_z = true
+script = ExtResource("1_lp0j2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00480731, -0.0242886, -0.00307167)
+shape = SubResource("CapsuleShape3D_k8gea")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00547592, 0.0133297, -0.00202504)
+shape = SubResource("SphereShape3D_1uxbh")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 2
+shaded = true
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_u116s")
+hframes = 8
+vframes = 160
+
+[node name="PlayerSpringArm" type="SpringArm3D" parent="."]
+visible = false
+spring_length = 4.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5c36w")
+}
